@@ -31,7 +31,7 @@ class Card:
     
     def _verify_card_functions(self):
         if not (0 <= self.color <= 4): return False, "Card color is not in range."
-        if not (0 <= self.function <= 15): return False, "Card function is not in range."
+        if not (0 <= self.function < 15): return False, "Card function is not in range."
         if self.color == 4 and self.function > 13: return True, "Valid"
         if self.color != 4 and self.function < 13: return True, "Valid"
         return False, f"The card {self.__repr__()} is invalid."
