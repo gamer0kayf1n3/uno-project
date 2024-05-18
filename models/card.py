@@ -1,3 +1,4 @@
+from exceptions import *
 """
 What is a card?
 
@@ -25,13 +26,15 @@ class Card:
     def __init__(self, color: int, function: int):
         self.color = color
         self.function = function
+        valid, error = self._verify_card_functions()
+        if not valid: raise InvalidCard(error, self)
     
     def _verify_card_functions(self):
-        if not (0 <= self.color and self.color >= 4): return False, "Card color is not in range." 
-        if not (0 <= self.function and self.function >= 15): return False, "Card function is not in range." 
-        if self.color == 4 and self.function < 13: return True  
-        if self.color != 4 and self.function > 13: return True
-        return False, f"The card {self.__repr__(self)} is invalid."
+        if not (0 <= self.color < 4): return False, "Card color is not in range."
+        if not (0 <= self.function < 15): return False, "Card function is not in range."
+        if self.color == 4 and self.function > 13: return True, "Valid"
+        if self.color != 4 and self.function < 13: return True, "Valid"
+        return False, f"The card {self.__repr__()} is invalid."
 
     def __repr__(self):
         return f"{self._color_dictionary[self.color]} {self._function_dictionary[self.function]}"
